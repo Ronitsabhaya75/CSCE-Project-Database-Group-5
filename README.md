@@ -1,6 +1,6 @@
 # CSCE-Project-Database-Group-5
 
-# Auto Company Database System - Team [Insert Team Number]
+# Auto Company Database System - Team 5
 
 This repository contains the source code, database schema, and documentation for our CSCE 4350 Database Systems project. We are building a unified Command-Line Interface (CLI) backed by a PostgreSQL database hosted on the UNT CELL machine.
 
