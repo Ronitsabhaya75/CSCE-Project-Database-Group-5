@@ -1,5 +1,5 @@
 # Dealer Interface (Vehicle Locator)
-**Owner:** [Name 3]
+**Owner:** Snehitha Paruchi
 
 Your task is to build the CLI menu for dealership employees. 
 You need to write SQL queries in your code that execute the following:
