@@ -14,10 +14,10 @@ To ensure we hit our April 19th deadline, work is divided into four distinct dom
 * **Shegofa Ahmadi (Customer Interface Developer)**
     * **Folder:** `src/customer/`
     * **Duties:** Building the Online Customer CLI to search inventory and process mock purchases.
-* **Snehitha (Dealer Interface Developer)**
+* **Snehitha Paruchi (Dealer Interface Developer)**
     * **Folder:** `src/dealer/`
     * **Duties:** Building the Vehicle Locator CLI for dealers to check local/global stock and process sales.
-* **Eonitkumar (Project Manager & DBA)**
+* **Ronitkumar Sabhaya (Project Manager & DBA)**
     * **Folder:** `sql/`
     * **Duties:** Managing the `auto_company_db` on the CELL machine, writing complex test queries, handling concurrency, and formatting final checkpoint submissions.
 
@@ -29,13 +29,13 @@ To ensure we hit our April 19th deadline, work is divided into four distinct dom
 | :--- | :--- | :--- | :--- |
 | **Apr 8** | Setup | Repo setup, DB connection class, and basic UI menus. | David Oladipupo |
 | **Apr 9-13** | Dev Phase 1 | Build Marketing & Customer Interfaces. | David Oladipupo & Shegofa Ahmadi |
-| **Apr 14-15** | CP2 Check-in | Test the two compiled interfaces for CP2. | Ronitkumar |
-| **Apr 17** | Checkpoint 2 | Submit relational schema, UI plans, and schedule. | Ronitkumar |
-| **Apr 18-22** | Dev Phase 2 | Build Dealer Interface & final purchase logic. | Snehitha & Shegofa Ahmadi |
+| **Apr 14-15** | CP2 Check-in | Test the two compiled interfaces for CP2. | Ronitkumar Sabhaya |
+| **Apr 17** | Checkpoint 2 | Submit relational schema, UI plans, and schedule. | Ronitkumar Sabhaya |
+| **Apr 18-22** | Dev Phase 2 | Build Dealer Interface & final purchase logic. | Snehitha Paruchi & Shegofa Ahmadi |
 | **Apr 23-25** | Integration | Bring all CLI menus into one `main` program. | Entire Team |
 | **Apr 26-29** | Bug Squashing | Fix broken queries, update E-R diagram, final tests. | Entire Team |
-| **Apr 27-29** | Presentation Prep | Create project presentation (slides, Canva). | Ronitkumar |
-| **Apr 30** | Final Delivery / Checkpoint 3 | Submit `Project-Team#.zip` and Presentation to Blackboard. | Ronitkumar |
+| **Apr 27-29** | Presentation Prep | Create project presentation (slides, Canva). | Ronitkumar Sabhaya |
+| **Apr 30** | Final Delivery / Checkpoint 3 | Submit `Project-Team#.zip` and Presentation to Blackboard. | Ronitkumar Sabhaya |
 
 ---
 
