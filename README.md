@@ -34,7 +34,8 @@ To ensure we hit our April 19th deadline, work is divided into four distinct dom
 | **Apr 18-22** | Dev Phase 2 | Build Dealer Interface & final purchase logic. | Snehitha & Shegofa Ahmadi |
 | **Apr 23-25** | Integration | Bring all CLI menus into one `main` program. | Entire Team |
 | **Apr 26-29** | Bug Squashing | Fix broken queries, update E-R diagram, final tests. | Entire Team |
-| **Apr 30** | Final Delivery / Checkpoint 3 | Submit `Project-Team#.zip` to Blackboard. | Ronitkumar |
+| **Apr 27-29** | Presentation Prep | Create project presentation (slides, Canva). | Ronitkumar |
+| **Apr 30** | Final Delivery / Checkpoint 3 | Submit `Project-Team#.zip` and Presentation to Blackboard. | Ronitkumar |
 
 ---
 
