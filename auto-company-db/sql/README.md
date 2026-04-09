@@ -1,5 +1,5 @@
 # Database Administration
-**Owner:** [Name 4]
+**Owner:** Ronitkumar
 
 This folder contains the master `.sql` files used to build the database on the UNT CELL machine.
 **Responsibilities:**
