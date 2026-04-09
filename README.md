@@ -23,19 +23,18 @@ To ensure we hit our April 19th deadline, work is divided into four distinct dom
 
 ---
 
-## 📅 Development Schedule (Target: April 19)
+## 📅 Development Schedule (Target: April 30)
 
 | Date | Phase | Task | Assignee |
 | :--- | :--- | :--- | :--- |
-| **Apr 8** | Checkpoint 2 | Submit relational schema, UI plans, and schedule. | Ronitkumar |
-| **Apr 9** | Setup | Repo setup, DB connection class, and basic UI menus. | David Oladipupo |
-| **Apr 10-11** | Dev Phase 1 | Build Marketing & Customer Interfaces. | David Oladipupo & Shegofa Ahmadi |
-| **Apr 12** | CP3 Check-in | Test the two compiled interfaces for CP3. | Ronitkumar |
-| **Apr 13** | Checkpoint 3 | Submit updated schedule and two executables. | Ronitkumar |
-| **Apr 14-15** | Dev Phase 2 | Build Dealer Interface & final purchase logic. | Snehitha & Shegofa Ahmadi |
-| **Apr 16** | Integration | Bring all CLI menus into one `main` program. | Entire Team |
-| **Apr 17-18** | Bug Squashing | Fix broken queries, update E-R diagram, final tests. | Entire Team |
-| **Apr 19** | Final Delivery | Submit `Project-Team#.zip` to Blackboard. | Ronitkumar |
+| **Apr 8** | Setup | Repo setup, DB connection class, and basic UI menus. | David Oladipupo |
+| **Apr 9-13** | Dev Phase 1 | Build Marketing & Customer Interfaces. | David Oladipupo & Shegofa Ahmadi |
+| **Apr 14-15** | CP3 Check-in | Test the two compiled interfaces for CP3. | Ronitkumar |
+| **Apr 17** | Checkpoint 2 | Submit relational schema, UI plans, and schedule. | Ronitkumar |
+| **Apr 18-22** | Dev Phase 2 | Build Dealer Interface & final purchase logic. | Snehitha & Shegofa Ahmadi |
+| **Apr 23-25** | Integration | Bring all CLI menus into one `main` program. | Entire Team |
+| **Apr 26-29** | Bug Squashing | Fix broken queries, update E-R diagram, final tests. | Entire Team |
+| **Apr 30** | Final Delivery / Checkpoint 3 | Submit `Project-Team#.zip` to Blackboard. | Ronitkumar |
 
 ---
 
