@@ -29,7 +29,7 @@ To ensure we hit our April 19th deadline, work is divided into four distinct dom
 | :--- | :--- | :--- | :--- |
 | **Apr 8** | Setup | Repo setup, DB connection class, and basic UI menus. | David Oladipupo |
 | **Apr 9-13** | Dev Phase 1 | Build Marketing & Customer Interfaces. | David Oladipupo & Shegofa Ahmadi |
-| **Apr 14-15** | CP3 Check-in | Test the two compiled interfaces for CP3. | Ronitkumar |
+| **Apr 14-15** | CP2 Check-in | Test the two compiled interfaces for CP2. | Ronitkumar |
 | **Apr 17** | Checkpoint 2 | Submit relational schema, UI plans, and schedule. | Ronitkumar |
 | **Apr 18-22** | Dev Phase 2 | Build Dealer Interface & final purchase logic. | Snehitha & Shegofa Ahmadi |
 | **Apr 23-25** | Integration | Bring all CLI menus into one `main` program. | Entire Team |
