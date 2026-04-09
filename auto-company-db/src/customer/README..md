@@ -1,5 +1,5 @@
 # Online Customer Interface
-**Owner:** [Name 2]
+**Owner:** Shegofa Ahmadi
 
 Your task is to build the CLI menu that allows a customer to browse the database. 
 You need to write SQL queries in your code that execute the following menu options:
