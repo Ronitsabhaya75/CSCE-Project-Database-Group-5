@@ -1,7 +1,7 @@
 # 🚗 Auto Company Database System — Team 5
 
-> **CSCE 4350 – Database Systems** | University of North Texas
-> A unified CLI application backed by a PostgreSQL database hosted on the UNT CELL machine.
+> **CSCE 4350 – Database Systems** | University of North Texas  
+> A unified CLI application backed by a PostgreSQL database hosted on Supabase.
 
 ---
 
@@ -12,7 +12,7 @@
 | **David Oladipupo** | Integration & Marketing Lead | `src/marketing/` | Repo setup, master DB connection script, Master Login Menu, Marketing OLAP CLI |
 | **Shegofa Ahmadi** | Customer Interface Developer | `src/customer/` | Online Customer CLI — inventory search & mock purchases |
 | **Snehitha Paruchi** | Dealer Interface Developer | `src/dealer/` | Vehicle Locator CLI — local/global stock & sales processing |
-| **Ronitkumar Sabhaya** | Project Manager & DBA | `sql/` | DB management, complex queries, concurrency, checkpoint submissions |
+| **Ronitkumar Sabhaya** | Project Manager & DBA | `sql/` | DB management, DBA CLI Menu, complex defect/inventory queries, `.env` configuration, checkpoint submissions |
 
 ---
 
@@ -25,7 +25,7 @@ pip install -r requirements.txt
 ```
 
 ### 2. Configure Environment Variables
-Create a `.env` file in the project root with the following:
+Create a `.env` file in the `auto-company-db\src` folder with the following:
 ```env
 DB_HOST=aws-1-us-east-2.pooler.supabase.com
 DB_PORT=5432
