@@ -8,6 +8,7 @@ import sys
 from customer.customer_menu import CustomerMenu
 from dealer.dealer_menu import DealerMenu
 from marketing.marketing_menu import MarketingMenu
+from dba.dba_menu import DBAMenu
 
 load_dotenv()
 
@@ -52,27 +53,6 @@ class DatabaseConnection:
         if self.connection:
             self.connection.close()
             print("\nDatabase connection closed. Goodbye!")
-
-class DBAMenu:
-    """A basic class structure for the DBA menu to match the pattern."""
-    def __init__(self, db_connection):
-        self.conn = db_connection.connection
-        self.cur = db_connection.cursor
-
-    def show_menu(self):
-        print("\n=============================================")
-        print("             DBA COMMAND LINE                ")
-        print("=============================================")
-        print("Connected to: Supabase PostgreSQL")
-        print("  [1] Execute Raw SQL Query")
-        print("  [2] Run Supplier Defect Trace")
-        print("  [3] Identify Stagnant Inventory")
-        print("  [4] Return to Main Menu")
-        print("=============================================")
-
-    def run(self):
-        self.show_menu()
-        input("Press Enter to return to main menu...")
 
 def main():
     db = DatabaseConnection()
