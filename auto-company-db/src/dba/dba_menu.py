@@ -1,5 +1,6 @@
 from db_queries import DBQueries
 from psycopg2 import Error
+from utils import print_dynamic_table
 
 class DBAMenu:
     def __init__(self, db_connection):
@@ -56,10 +57,7 @@ class DBAMenu:
             
             if columns and results is not None:
                 print(f"\n✅ Query executed successfully. {len(results)} rows returned.")
-                print(" | ".join(columns))
-                print("-" * 50)
-                for row in results:
-                    print(" | ".join(str(item) for item in row))
+                print_dynamic_table(columns, results)
             else:
                 print("\n✅ Query executed successfully. Changes committed.")
                 
@@ -78,15 +76,20 @@ class DBAMenu:
                 print(f"\nNo defective vehicles found associated with '{search_term}'.")
                 return
                 
-            print(f"\n🚨 WARNING: Found {len(results)} vehicles with potentially defective parts from '{search_term}'\n")
-            print(f"{'VIN':<18} | {'Model':<15} | {'Part':<15} | {'Supplier':<15} | {'Customer Name':<20} | {'Phone'}")
-            print("-" * 110)
+            print(f"\n🚨 WARNING: Found {len(results)} vehicles with potentially defective parts from '{search_term}'")
             
+            formatted_results = []
             for row in results:
-                vin, model, part, supplier, fname, lname, phone, mfg_date = row
-                customer_name = f"{fname} {lname}" if fname and lname else "Unsold (In Inventory)"
-                phone_str = phone if phone else "N/A"
-                print(f"{vin:<18} | {model:<15} | {part:<15} | {supplier:<15} | {customer_name:<20} | {phone_str}")
+                # Handle potential NULLs for fname, lname, and phone gracefully
+                fname = row[4] or ""
+                lname = row[5] or ""
+                customer_name = f"{fname} {lname}".strip() if (fname or lname) else "Unsold (In Inventory)"
+                phone_str = row[6] if row[6] else "N/A"
+                
+                formatted_results.append([row[0], row[1], row[2], row[3], customer_name, phone_str])
+            
+            headers = ["VIN", "Model", "Part", "Supplier", "Customer Name", "Phone"]
+            print_dynamic_table(headers, formatted_results)
                 
         except (Exception, Error) as e:
             self.queries.rollback()
@@ -103,12 +106,15 @@ class DBAMenu:
                 return
                 
             print("\n🕒 Top 10 Longest Sitting Vehicles in Inventory:")
-            print(f"{'Inv ID':<6} | {'VIN':<18} | {'Model':<15} | {'Date Received':<15} | {'Days Stagnant'}")
-            print("-" * 75)
             
-            for row in results:
-                inv_id, vin, model, date_recv, days = row
-                print(f"{inv_id:<6} | {vin:<18} | {model:<15} | {str(date_recv):<15} | {days} days")
+            # Format the days column
+            formatted_results = [
+                [row[0], row[1], row[2], row[3], f"{row[4]} days"]
+                for row in results
+            ]
+            
+            headers = ["Inv ID", "VIN", "Model", "Date Received", "Days Stagnant"]
+            print_dynamic_table(headers, formatted_results)
                 
         except (Exception, Error) as e:
             self.queries.rollback()

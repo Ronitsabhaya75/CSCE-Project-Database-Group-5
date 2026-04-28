@@ -1,4 +1,5 @@
 from db_queries import DBQueries
+from utils import print_dynamic_table
 
 class CustomerMenu:
     def __init__(self, db_connection):
@@ -18,16 +19,8 @@ class CustomerMenu:
 
         try:
             results = self.queries.search_dealerships(city, state)
-
-            if not results:
-                print("No dealerships found in that location.")
-                return
-
-            print(f"\n{'Dealership Name':<25} | {'Address':<30} | {'City':<15} | {'State':<10} | {'Phone'}")
-            print("-" * 105)
-            for row in results:
-                print(f"{row[0]:<25} | {row[1]:<30} | {row[2]:<15} | {row[3]:<10} | {row[4]}")
-        
+            headers = ["Dealership Name", "Address", "City", "State", "Phone"]
+            print_dynamic_table(headers, results)
         except Exception as e:
             print(f"Error searching dealerships: {e}")
 
@@ -35,16 +28,8 @@ class CustomerMenu:
         print("\n[Executing: Vehicle Catalog]")
         try:
             results = self.queries.get_vehicle_catalog()
-
-            if not results:
-                print("Catalog is currently empty.")
-                return
-
-            print(f"\n{'Brand':<15} | {'Model':<15} | {'Style':<12} | {'Year':<6} | {'Engine':<15} | {'Transmission':<15} | {'Color'}")
-            print("-" * 105)
-            for row in results:
-                print(f"{row[0]:<15} | {row[1]:<15} | {row[2]:<12} | {str(row[3]):<6} | {row[4]:<15} | {row[5]:<15} | {row[6]}")
-                
+            headers = ["Brand", "Model", "Style", "Year", "Engine", "Transmission", "Color"]
+            print_dynamic_table(headers, results)
         except Exception as e:
             print(f"Error loading catalog: {e}")
 
@@ -54,16 +39,14 @@ class CustomerMenu:
 
         try:
             results = self.queries.search_available_inventory(model)
-
-            if not results:
-                print(f"No available inventory found matching '{model}'.")
-                return
-
-            print(f"\n{'Model Name':<20} | {'Dealership':<25} | {'Price':<12} | {'Date Arrived'}")
-            print("-" * 75)
+            
+            # Format the price with $ and commas before sending to dynamic table
+            formatted_results = []
             for row in results:
-                print(f"{row[0]:<20} | {row[1]:<25} | ${row[2]:,.2f}   | {str(row[3])}")
+                formatted_results.append([row[0], row[1], f"${row[2]:,.2f}", row[3]])
                 
+            headers = ["Model Name", "Dealership", "Price", "Date Arrived"]
+            print_dynamic_table(headers, formatted_results)
         except Exception as e:
             print(f"Error searching inventory: {e}")
 
