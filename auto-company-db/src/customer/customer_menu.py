@@ -1,11 +1,9 @@
-import psycopg2
+from db_queries import DBQueries
 
 class CustomerMenu:
     def __init__(self, db_connection):
-        self.conn = db_connection.connection
-        self.cur = db_connection.cursor
+        self.queries = DBQueries(db_connection)
 
-    # MENU DISPLAY
     def show_menu(self):
         print("\n--- 🛒 Online Customer Menu ---")
         print("1. Search Dealerships by Location")
@@ -13,21 +11,13 @@ class CustomerMenu:
         print("3. Search Inventory for Specific Model")
         print("4. Return to Main Menu")
 
-    # 1. DEALERSHIP SEARCH
     def search_dealerships(self):
         print("\n[Executing: Dealership Search]")
         city = input("Enter city (or press Enter to skip): ")
         state = input("Enter state (or press Enter to skip): ")
 
         try:
-            # Using partial matching so "Tex" finds "Texas"
-            query = """
-            SELECT name, address, city, state, phone
-            FROM Dealer
-            WHERE city ILIKE %s AND state ILIKE %s;
-            """
-            self.cur.execute(query, (f"%{city}%", f"%{state}%"))
-            results = self.cur.fetchall()
+            results = self.queries.search_dealerships(city, state)
 
             if not results:
                 print("No dealerships found in that location.")
@@ -41,22 +31,10 @@ class CustomerMenu:
         except Exception as e:
             print(f"Error searching dealerships: {e}")
 
-    # 2. BROWSE CATALOG
     def browse_catalog(self):
         print("\n[Executing: Vehicle Catalog]")
         try:
-            # Added DISTINCT so we don't print 100 rows for the exact same configuration
-            query = """
-            SELECT DISTINCT b.brand_name, m.model_name, m.body_style, m.year,
-                   o.engine_type, o.transmission_type, o.color
-            FROM Brand b
-            JOIN Model m ON b.brand_id = m.brand_id
-            JOIN Vehicle v ON m.model_id = v.model_id
-            JOIN Options o ON v.options_id = o.options_id
-            ORDER BY b.brand_name, m.model_name;
-            """
-            self.cur.execute(query)
-            results = self.cur.fetchall()
+            results = self.queries.get_vehicle_catalog()
 
             if not results:
                 print("Catalog is currently empty.")
@@ -70,24 +48,12 @@ class CustomerMenu:
         except Exception as e:
             print(f"Error loading catalog: {e}")
 
-    # 3. SEARCH INVENTORY
     def search_inventory(self):
         print("\n[Executing: Inventory Search]")
         model = input("Enter model name: ")
 
         try:
-            # Added `date_sold IS NULL` so customers only see available vehicles
-            query = """
-            SELECT m.model_name, d.name, i.price, i.date_received
-            FROM Inventory i
-            JOIN Dealer d ON i.dealer_id = d.dealer_id
-            JOIN Vehicle v ON i.vin = v.vin
-            JOIN Model m ON v.model_id = m.model_id
-            WHERE m.model_name ILIKE %s AND i.date_sold IS NULL
-            ORDER BY i.price ASC;
-            """
-            self.cur.execute(query, (f"%{model}%",))
-            results = self.cur.fetchall()
+            results = self.queries.search_available_inventory(model)
 
             if not results:
                 print(f"No available inventory found matching '{model}'.")
@@ -101,7 +67,6 @@ class CustomerMenu:
         except Exception as e:
             print(f"Error searching inventory: {e}")
 
-    # MAIN LOOP
     def run(self):
         while True:
             self.show_menu()

@@ -1,7 +1,8 @@
+from db_queries import DBQueries
+
 class DealerMenu:
     def __init__(self, db_connection):
-        self.conn = db_connection.connection
-        self.cur = db_connection.cursor
+        self.queries = DBQueries(db_connection)
 
     def show_menu(self):
         print("\n--- 🚗 Dealer Inventory Locator ---")
@@ -13,19 +14,19 @@ class DealerMenu:
 
     def check_local_inventory(self):
         print("\n[Executing: Checking Local Inventory]")
-        # To do for CP3: Query inventory filtering by specific dealer_id
+        self.queries.check_local_inventory()
         
     def search_nearby_dealers(self):
         print("\n[Executing: Searching Nearby Dealers]")
-        # To do for CP3: Cross-reference Vehicles and Dealers tables
+        self.queries.search_nearby_dealers()
 
     def log_new_sale(self):
         print("\n[Executing: Logging a New Sale]")
-        # To do for CP3: Insert record into Sale table, update Inventory
+        self.queries.log_new_sale()
 
     def update_inventory(self):
         print("\n[Executing: Updating Inventory Status]")
-        # To do for CP3: Add or remove vehicles from lot
+        self.queries.update_inventory()
 
     def run(self):
         while True:
