@@ -1,8 +1,9 @@
+from db_queries import DBQueries
+from utils import print_dynamic_table
+
 class MarketingMenu:
     def __init__(self, db_connection):
-        # Store the database connection and cursor for future queries
-        self.conn = db_connection.connection
-        self.cur = db_connection.cursor
+        self.queries = DBQueries(db_connection)
 
     def show_menu(self):
         print("\n--- 📊 Marketing Department Menu ---")
@@ -14,19 +15,67 @@ class MarketingMenu:
 
     def run_trend_report(self):
         print("\n[Executing: 3-Year Sales Trend Report]")
-        # To do for CP3: Write the GROUP BY query
-        
+        try:
+            results = self.queries.get_3_year_sales_trend()
+            
+            # Format numbers and currency
+            formatted_results = [
+                [int(row[0]), int(row[1]), row[2], f"${row[3]:,.2f}"] 
+                for row in results
+            ]
+            
+            headers = ["Year", "Month", "Units Sold", "Total Revenue"]
+            print_dynamic_table(headers, formatted_results)
+        except Exception as e:
+            print(f"Error generating 3-Year Trend Report: {e}")
+
     def run_top_brands(self):
         print("\n[Executing: Top Performing Brands]")
-        # To do for CP3: Write the Revenue and Unit aggregation queries
+        try:
+            results = self.queries.get_top_performing_brands()
+            
+            # Format currency
+            formatted_results = [
+                [row[0], row[1], f"${row[2]:,.2f}"] 
+                for row in results
+            ]
+            
+            headers = ["Brand", "Units Sold", "Total Revenue"]
+            print_dynamic_table(headers, formatted_results)
+        except Exception as e:
+            print(f"Error generating Top Brands Report: {e}")
 
     def run_seasonal_convertibles(self):
         print("\n[Executing: Seasonal Convertible Sales Data]")
-        # To do for CP3: Extract month from sale_date for convertibles
+        try:
+            results = self.queries.get_seasonal_convertibles()
+            formatted_results = [[int(row[0]), row[1]] for row in results]
+            
+            headers = ["Month", "Units Sold"]
+            print_dynamic_table(headers, formatted_results)
+        except Exception as e:
+            print(f"Error generating Seasonal Convertible Data: {e}")
 
     def run_unfulfilled_inquiries(self):
         print("\n[Executing: Review Unfulfilled Customer Inquiries]")
-        # To do for CP3: Fetch data logged by the Dealer Interface
+        try:
+            results = self.queries.get_unfulfilled_inquiries()
+            
+            if not results:
+                print("\n✅ Great news! There are no unfulfilled inquiries.")
+                return
+
+            # Optionally truncate notes if they are massive
+            formatted_results = []
+            for row in results:
+                notes = row[4] if row[4] else "No notes provided"
+                notes_preview = (notes[:40] + '...') if len(notes) > 40 else notes
+                formatted_results.append([row[0], row[1], row[2], row[3], notes_preview])
+
+            headers = ["Date", "Customer Name", "Dealership", "Requested Model", "Notes"]
+            print_dynamic_table(headers, formatted_results)
+        except Exception as e:
+            print(f"Error checking inquiries: {e}")
 
     def run(self):
         while True:
