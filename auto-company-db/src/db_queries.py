@@ -161,14 +161,85 @@ class DBQueries:
     # ==========================================
     # DEALER QUERIES
     # ==========================================
-    def check_local_inventory(self):
-        pass
-        
-    def search_nearby_dealers(self):
-        pass
-        
-    def log_new_sale(self):
-        pass
-        
-    def update_inventory(self):
-        pass
+    def get_local_inventory(self, dealer_id):
+        query = """
+            SELECT i.vin, m.model_name, o.color, i.price, i.date_received
+            FROM Inventory i
+            JOIN Vehicle v ON i.vin = v.vin
+            JOIN Model m ON v.model_id = m.model_id
+            JOIN Options o ON v.options_id = o.options_id
+            WHERE i.dealer_id = %s AND i.date_sold IS NULL
+            ORDER BY i.date_received DESC;
+        """
+        self.cur.execute(query, (dealer_id,))
+        return self.cur.fetchall()
+
+    def locate_vehicle_globally(self, search_term):
+        query = """
+            SELECT d.name, d.city, d.state, i.vin, m.model_name, i.price
+            FROM Inventory i
+            JOIN Dealer d ON i.dealer_id = d.dealer_id
+            JOIN Vehicle v ON i.vin = v.vin
+            JOIN Model m ON v.model_id = m.model_id
+            WHERE i.date_sold IS NULL
+              AND (i.vin ILIKE %s OR m.model_name ILIKE %s)
+            ORDER BY d.name;
+        """
+        self.cur.execute(query, (f"%{search_term}%", f"%{search_term}%"))
+        return self.cur.fetchall()
+
+    def find_dealers(self, search_term):
+        query = """
+            SELECT dealer_id, name, city, state
+            FROM Dealer
+            WHERE name ILIKE %s
+            ORDER BY name;
+        """
+        self.cur.execute(query, (f"%{search_term}%",))
+        return self.cur.fetchall()
+
+    def find_customers(self, search_term):
+        query = """
+            SELECT customer_id, first_name || ' ' || last_name AS full_name, phone
+            FROM Customer
+            WHERE first_name ILIKE %s OR last_name ILIKE %s
+            ORDER BY last_name, first_name;
+        """
+        self.cur.execute(query, (f"%{search_term}%", f"%{search_term}%"))
+        return self.cur.fetchall()
+
+    def find_model(self, search_term):
+        query = """
+            SELECT m.model_id, m.model_name, b.brand_name
+            FROM Model m
+            JOIN Brand b ON m.brand_id = b.brand_id
+            WHERE m.model_name ILIKE %s
+            ORDER BY m.model_name;
+        """
+        self.cur.execute(query, (f"%{search_term}%",))
+        return self.cur.fetchall()
+
+    def log_customer_inquiry(self, customer_id, dealer_id, model_id, notes):
+        query = """
+            INSERT INTO Customer_Inquiry (customer_id, dealer_id, model_id, notes)
+            VALUES (%s, %s, %s, %s);
+        """
+        self.cur.execute(query, (customer_id, dealer_id, model_id, notes))
+        self.conn.commit()
+
+    def process_sale(self, vin, dealer_id, customer_id, sale_price):
+        check_query = """
+            SELECT inventory_id FROM Inventory
+            WHERE vin = %s AND date_sold IS NULL;
+        """
+        self.cur.execute(check_query, (vin,))
+        if not self.cur.fetchone():
+            raise ValueError(f"VIN {vin} is not available (already sold or not found in inventory).")
+
+        self.cur.execute(
+            "INSERT INTO Sale (vin, dealer_id, customer_id, sale_date, sale_price) VALUES (%s, %s, %s, CURRENT_DATE, %s);",
+            (vin, dealer_id, customer_id, sale_price)
+        )
+        self.cur.execute("UPDATE Vehicle SET status = 'sold' WHERE vin = %s;", (vin,))
+        self.cur.execute("UPDATE Inventory SET date_sold = CURRENT_DATE WHERE vin = %s;", (vin,))
+        self.conn.commit()
