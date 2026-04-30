@@ -1,6 +1,7 @@
 from db_queries import DBQueries
 from psycopg2 import Error
 from utils import print_dynamic_table
+import os
 
 class DBAMenu:
     def __init__(self, db_connection):
@@ -44,10 +45,18 @@ class DBAMenu:
             
         sql_query = user_input
         if sql_query.endswith('.sql'):
+            file_path = sql_query
+            
+            # If just a filename is provided, check if it exists in current dir, otherwise default to sql/ folder
+            if not os.path.dirname(file_path):
+                if not os.path.exists(file_path):
+                    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
+                    file_path = os.path.join(project_root, 'sql', user_input)
+                    
             try:
-                with open(sql_query, 'r') as file:
+                with open(file_path, 'r') as file:
                     sql_query = file.read()
-                print(f"Loaded query from {user_input}.")
+                print(f"Loaded query from {file_path}.")
             except FileNotFoundError:
                 print(f"❌ Error: Could not find file {user_input}")
                 return
