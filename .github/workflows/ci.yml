@@ -25,14 +25,16 @@ jobs:
         cd auto-company-db/src
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install pytest
+        pip install pytest pytest-html
 
-    - name: Run Unit Tests
+    - name: Run Tests and Generate Report
       run: |
         cd auto-company-db
-        python -m unittest discover -s tests -p "test_unit*.py" -v
+        pytest tests/ -v --html=report.html --self-contained-html
 
-    - name: Run Integration Tests
-      run: |
-        cd auto-company-db
-        python -m unittest discover -s tests -p "test_integration*.py" -v
+    - name: Upload Test Report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-report
+        path: auto-company-db/report.html
