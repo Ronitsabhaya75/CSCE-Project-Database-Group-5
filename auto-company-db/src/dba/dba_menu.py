@@ -2,6 +2,7 @@ from db_queries import DBQueries
 from psycopg2 import Error
 from utils import print_dynamic_table
 import os
+import sqlparse
 
 class DBAMenu:
     def __init__(self, db_connection):
@@ -61,8 +62,8 @@ class DBAMenu:
                 print(f"❌ Error: Could not find file {user_input}")
                 return
 
-        # Split the queries by ';' and filter out empty ones
-        queries = [q.strip() for q in sql_query.split(';') if q.strip()]
+        # Split the queries safely using sqlparse and filter out empty ones
+        queries = [q.strip() for q in sqlparse.split(sql_query) if q.strip()]
         
         for q in queries:
             try:
@@ -77,6 +78,7 @@ class DBAMenu:
             except (Exception, Error) as e:
                 self.queries.rollback() 
                 print(f"\n❌ SQL Error: {e}")
+                break
 
     def run_supplier_defect_trace(self):
         print("\n--- Supplier Defect Trace ---")
