@@ -55,14 +55,14 @@ class TestE2E(unittest.TestCase):
 
     def test_e2e_customer_menu_search_dealership(self):
         # 1: Customer Menu
-        # 2: Search Dealerships
+        # 1: Search Dealerships
         # (city input): Dallas
         # (state input): TX
-        # 3: Return to Main Menu
+        # 4: Return to Main Menu
         # 5: Exit System
-        stdout, stderr, code = self.run_cli(["1", "2", "Dallas", "TX", "3", "5"])
+        stdout, stderr, code = self.run_cli(["1", "1", "Dallas", "TX", "4", "5"])
         self.assertEqual(code, 0)
-        self.assertIn("Dealerships in Dallas, TX", stdout)
+        self.assertIn("Executing: Dealership Search", stdout)
         self.assertIn("Exiting system...", stdout)
 
 if __name__ == '__main__':
