@@ -11,6 +11,11 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: read
+      checks: write
+      pull-requests: write
 
     steps:
     - uses: actions/checkout@v3
@@ -27,14 +32,29 @@ jobs:
         pip install -r requirements.txt
         pip install pytest pytest-html
 
-    - name: Run Tests and Generate Report
+    - name: Run Unit Tests
       run: |
         cd auto-company-db
-        pytest tests/ -v --html=report.html --self-contained-html
+        pytest tests/test_unit_*.py -v --junitxml=unit-test-results.xml --html=unit-report.html --self-contained-html
 
-    - name: Upload Test Report
+    - name: Run Integration Tests
+      run: |
+        cd auto-company-db
+        pytest tests/test_integration*.py -v --junitxml=integration-test-results.xml --html=integration-report.html --self-contained-html
+
+    - name: Publish Test Results to PR
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      if: always()
+      with:
+        files: |
+          auto-company-db/unit-test-results.xml
+          auto-company-db/integration-test-results.xml
+
+    - name: Upload Test Reports
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: test-report
-        path: auto-company-db/report.html
+        name: test-reports
+        path: |
+          auto-company-db/unit-report.html
+          auto-company-db/integration-report.html
