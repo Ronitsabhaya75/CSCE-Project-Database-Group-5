@@ -70,6 +70,18 @@ jobs:
         cd auto-company-db
         pytest tests/test_integration*.py -v --junitxml=integration-test-results.xml --html=integration-report.html --self-contained-html
 
+    - name: Run E2E Tests
+      env:
+        DB_HOST: localhost
+        DB_PORT: 5432
+        DB_NAME: auto_company_db
+        DB_USER: postgres
+        DB_PASSWORD: testpassword
+        DB_PASS: testpassword
+      run: |
+        cd auto-company-db
+        pytest tests/test_e2e*.py -v --junitxml=e2e-test-results.xml --html=e2e-report.html --self-contained-html
+
     - name: Publish Test Results to PR
       uses: EnricoMi/publish-unit-test-result-action@v2
       if: always()
@@ -77,6 +89,7 @@ jobs:
         files: |
           auto-company-db/unit-test-results.xml
           auto-company-db/integration-test-results.xml
+          auto-company-db/e2e-test-results.xml
 
     - name: Upload Test Reports
       uses: actions/upload-artifact@v4
@@ -86,3 +99,4 @@ jobs:
         path: |
           auto-company-db/unit-report.html
           auto-company-db/integration-report.html
+          auto-company-db/e2e-report.html
