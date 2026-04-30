@@ -52,18 +52,22 @@ class DBAMenu:
                 print(f"❌ Error: Could not find file {user_input}")
                 return
 
-        try:
-            columns, results = self.queries.execute_raw_sql(sql_query)
-            
-            if columns and results is not None:
-                print(f"\n✅ Query executed successfully. {len(results)} rows returned.")
-                print_dynamic_table(columns, results)
-            else:
-                print("\n✅ Query executed successfully. Changes committed.")
+        # Split the queries by ';' and filter out empty ones
+        queries = [q.strip() for q in sql_query.split(';') if q.strip()]
+        
+        for q in queries:
+            try:
+                columns, results = self.queries.execute_raw_sql(q)
                 
-        except (Exception, Error) as e:
-            self.queries.rollback() 
-            print(f"\n❌ SQL Error: {e}")
+                if columns and results is not None:
+                    print(f"\n✅ Query executed successfully. {len(results)} rows returned.")
+                    print_dynamic_table(columns, results)
+                else:
+                    print("\n✅ Query executed successfully. Changes committed.")
+                    
+            except (Exception, Error) as e:
+                self.queries.rollback() 
+                print(f"\n❌ SQL Error: {e}")
 
     def run_supplier_defect_trace(self):
         print("\n--- Supplier Defect Trace ---")

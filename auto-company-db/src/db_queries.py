@@ -156,7 +156,10 @@ class DBQueries:
         
     def rollback(self):
         """Utility function to roll back failed transactions."""
-        self.conn.rollback()
+        try:
+            self.conn.rollback()
+        except Exception:
+            pass
 
     # ==========================================
     # DEALER QUERIES
